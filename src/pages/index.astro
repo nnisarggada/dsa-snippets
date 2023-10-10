@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CardList from '../components/CardList.astro';
+const allPosts  = await Astro.glob('../pages/snippets/*.md')
+---
+
+<BaseLayout title="DSA Snippets">
+	<main>
+		<CardList list={allPosts}/>
+	</main>
+</BaseLayout>

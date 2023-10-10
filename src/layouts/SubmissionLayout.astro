@@ -1,0 +1,57 @@
+---
+import BaseLayout from './BaseLayout.astro'
+const { frontmatter } = Astro.props
+---
+
+<BaseLayout title={frontmatter.title} transition:persist>
+  <h1 class="text-5xl font-bold pb-5">{frontmatter.title}</h1>
+  <p class="lg:w-2/3 overflow-hidden rounded-tr-lg"></p>
+  <script>
+    function enableCopyButton() {
+      let copyButtonLabel = 'Copy Code'
+      let codeBlocks = Array.from(document.querySelectorAll('pre'))
+
+      for (let codeBlock of codeBlocks) {
+        let wrapper = document.createElement('div')
+        wrapper.style.position = 'relative'
+        wrapper.className = 'lg:w-2/3'
+
+        let copyButton = document.createElement('button')
+        copyButton.className =
+          'copy-code absolute top-0 right-0 bg-slate-600 p-3 text-sm rounded-tr-lg rounded-bl-lg text-white'
+        copyButton.innerHTML = copyButtonLabel
+
+        codeBlock.setAttribute('tabindex', '0')
+        codeBlock.className = 'p-10 rounded-lg'
+        codeBlock.appendChild(copyButton)
+        codeBlock.parentNode.insertBefore(wrapper, codeBlock)
+        wrapper.appendChild(codeBlock)
+
+        copyButton.addEventListener('click', async () => {
+          await copyCode(codeBlock, copyButton)
+        })
+      }
+    }
+
+    async function copyCode(block, button) {
+      let code = block.querySelector('code')
+      let text = code.innerText
+
+      await navigator.clipboard.writeText(text)
+
+      // visual feedback that task is completed
+      button.innerText = 'Code Copied'
+      button.classList.toggle('text-[#00ff00]')
+      button.classList.toggle('text-white')
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel
+        button.classList.toggle('text-white')
+        button.classList.toggle('text-[#00ff00]')
+      }, 700)
+    }
+
+    document.addEventListener('astro:after-swap', enableCopyButton);
+  </script>
+  <slot />
+</BaseLayout>

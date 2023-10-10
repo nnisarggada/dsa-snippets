@@ -1,0 +1,43 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+const { title } = Astro.props;
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Collection of code snippets for DSA" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+	<body class="flex flex-col min-h-screen">
+		<Nav/>
+		<div class="container mx-auto mb-auto pb-24 px-4">
+			<slot />
+		</div>
+		<Footer/>
+	</body>
+</html>
+<style is:global>
+	html {
+		font-family: system-ui, sans-serif;
+		background: #FCF5EB;
+		background-size: 224px;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+</style>
